@@ -1,0 +1,10 @@
+node_modules/
+dist/
+fields_of_mistria.7z
+.idea
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
