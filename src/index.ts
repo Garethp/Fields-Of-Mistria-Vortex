@@ -171,8 +171,6 @@ const init = (context: IExtensionContext) => {
         return;
       }
 
-      console.log(tool);
-
       return context.api
         .runExecutable(tool.path, [], {
           shell: tool.shell,
