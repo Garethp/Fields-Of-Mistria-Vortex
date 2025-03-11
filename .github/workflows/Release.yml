@@ -16,7 +16,7 @@ jobs:
           node-version: 22
       - run: corepack enable
       - run: yarn install --immutable
-      - run: yarn build
+      - run: yarn bundle
       - run: yarn lint
       - name: Upload binaries to release
         env:
