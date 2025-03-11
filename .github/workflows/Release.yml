@@ -11,6 +11,7 @@ jobs:
     environment: Deploy
     steps:
       - uses: actions/checkout@v2
+      - uses: milliewalky/setup-7-zip@v2
       - uses: actions/setup-node@v4
         with:
           node-version: 22
