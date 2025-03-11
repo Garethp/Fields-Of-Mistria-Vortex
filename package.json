@@ -1,0 +1,51 @@
+{
+  "name": "fields-of-mistria",
+  "version": "1.0.0",
+  "description": "A Vortex extension for Fields of Mistria",
+  "main": "./dist/index.js",
+  "repository": "",
+  "config": {
+    "game": "Fields of Mistria"
+  },
+  "scripts": {
+    "bundle7z": "yarn 7z a -t7z fields_of_mistria.7z ./dist/index.js ./dist/info.json ./dist/index.scss ./dist/fields-of-mistria.png",
+    "build": "yarn webpack && yarn copyfiles -f src/index.scss src/fields-of-mistria.png dist && yarn extractInfo",
+    "bundle": "yarn build && yarn bundle7z",
+    "lint": "prettier src/ --check"
+  },
+  "author": "Garethp",
+  "babel": {
+    "presets": [
+      "es2015"
+    ]
+  },
+  "devDependencies": {
+    "7z-bin": "Nexus-Mods/7z-bin",
+    "@types/i18next": "12.1.0",
+    "@types/node": "14.18.63",
+    "@types/react": "16.14.62",
+    "@types/redux": "3.6.31",
+    "@types/redux-thunk": "2.1.32",
+    "@types/semver": "7.5.8",
+    "bbcode-to-react": "0.2.9",
+    "bluebird": "3.7.2",
+    "copyfiles": "2.4.1",
+    "electron": "22.3.27",
+    "i18next": "17.3.1",
+    "prettier": "2.8.8",
+    "react": "16.14.0",
+    "react-bootstrap": "0.32.4",
+    "react-redux": "8.1.3",
+    "redux-act": "1.8.0",
+    "ts-loader": "6.2.2",
+    "typescript": "4.9.5",
+    "vortex-api": "Nexus-Mods/vortex-api",
+    "vortex-ext-http": "0.0.4",
+    "webpack": "4.47.0",
+    "webpack-cli": "3.3.12"
+  },
+  "dependencies": {
+    "semver": "7.7.1"
+  },
+  "packageManager": "yarn@4.7.0"
+}
