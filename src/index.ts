@@ -19,7 +19,7 @@ const getPathExistsAsync = async (path) => {
 
 const findGame = () => {
   return util.GameStoreHelper.findByAppId([STEAMAPP_ID]).then(
-    (game) => game.gamePath
+    (game) => game.gamePath,
   );
 };
 
@@ -29,14 +29,14 @@ const init = (context: IExtensionContext) => {
 
     const installerPath = path.join(
       discovery.path,
-      "ModsOfMistriaInstaller-cli.exe"
+      "ModsOfMistriaInstaller-cli.exe",
     );
 
     const installerFound = await getPathExistsAsync(installerPath);
 
     let online = true;
     const currentVersion = await fetch(
-      "https://api.github.com/repos/Garethp/Mods-of-Mistria-Installer/releases/latest"
+      "https://api.github.com/repos/Garethp/Mods-of-Mistria-Installer/releases/latest",
     )
       .then((response) => response.json())
       .then((data) => data.tag_name.replace(/^v/, ""))
@@ -128,7 +128,7 @@ const init = (context: IExtensionContext) => {
       const tool = util.getSafe(
         state,
         ["settings", "gameMode", "discovered", GAME_ID, "tools", "MOMI"],
-        undefined
+        undefined,
       );
 
       if (!tool) {
@@ -152,7 +152,7 @@ const init = (context: IExtensionContext) => {
           context.api.showErrorNotification("Failed to run tool", err, {
             allowReport:
               ["EPERM", "EACCESS", "ENOENT"].indexOf(err.code) !== -1,
-          })
+          }),
         );
     });
   });

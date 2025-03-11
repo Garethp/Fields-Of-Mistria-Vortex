@@ -10,13 +10,15 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - run: corepack enable
+      - run: corepack prepare yarn@4.x
       - run: yarn install --immutable
       - run: yarn build
       - run: yarn lint
+      - run: yarn bundle
