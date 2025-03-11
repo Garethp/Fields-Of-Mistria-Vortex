@@ -17,6 +17,8 @@ jobs:
         with:
           node-version: 22
       - run: corepack enable
+      - run: corepack prepare yarn@4.x
       - run: yarn install --immutable
       - run: yarn build
       - run: yarn lint
+      - run: yarn bundle
