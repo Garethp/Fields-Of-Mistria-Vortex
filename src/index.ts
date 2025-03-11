@@ -2,8 +2,8 @@ import { IExtensionContext } from "vortex-api/lib/types/IExtensionContext";
 import { fs, util } from "vortex-api";
 import { IDiscoveryResult } from "vortex-api/lib/extensions/gamemode_management/types/IDiscoveryResult";
 import * as path from "path";
-import { INotification } from "vortex-api/lib/types/INotification";
-import { downloadWithProgress } from "./utils";
+import { downloadMOMI, runTool } from "./utils";
+import semver from "semver/preload";
 
 const GAME_ID = "fieldsofmistria";
 const STEAMAPP_ID = "2142790";
@@ -47,7 +47,28 @@ const init = (context: IExtensionContext) => {
     if (installerFound) {
       if (!online) return;
 
-      // @TODO: Perform a version check
+      const version = await runTool(installerPath, ["--version"]).catch((e) => {
+        console.log(e);
+        return "0.0.0";
+      });
+
+      if (semver.lt(version, currentVersion)) {
+        context.api.sendNotification({
+          id: "momi-needs-update",
+          type: "warning",
+          title: "Mods of Mistria Installer has an update to install",
+          message:
+            "The Mods of Mistria Installer currently installed is out of date. Please download the latest version.",
+          actions: !online
+            ? []
+            : [
+                {
+                  title: "Download",
+                  action: downloadMOMI(context, discovery),
+                },
+              ],
+        });
+      }
       return;
     }
 
@@ -62,56 +83,7 @@ const init = (context: IExtensionContext) => {
         : [
             {
               title: "Download",
-              action: () => {
-                const downloadNotif: INotification = {
-                  id: "momi-download",
-                  type: "activity",
-                  title: "Downloading MOMI",
-                  message: "This may take a minute...",
-                };
-
-                context.api.dismissNotification("momi-missing");
-
-                const exe64 =
-                  "https://github.com/Garethp/Mods-of-Mistria-Installer/releases/latest/download/ModsOfMistriaInstaller-cli.exe";
-
-                const exe86 =
-                  "https://github.com/Garethp/Mods-of-Mistria-Installer/releases/latest/download/ModsOfMistriaInstaller-cli.exe";
-
-                context.api.sendNotification({
-                  ...downloadNotif,
-                  progress: 0,
-                });
-
-                const versionToUse =
-                  process.env.PROCESSOR_ARCHITECTURE !== "AMD64"
-                    ? exe86
-                    : exe64;
-
-                void downloadWithProgress(versionToUse, (total, current) => {
-                  context.api.sendNotification({
-                    ...downloadNotif,
-                    progress: (current / total) * 100,
-                  });
-                }).then((output) => {
-                  context.api.sendNotification({
-                    ...downloadNotif,
-                    progress: 100,
-                  });
-                  context.api.dismissNotification("momi-download");
-                  context.api.sendNotification({
-                    id: "momi-downloaded",
-                    type: "success",
-                    message: "Download Complete",
-                  });
-
-                  return fs.writeFileAsync(
-                    path.join(discovery.path, "ModsOfMistriaInstaller-cli.exe"),
-                    output,
-                    { encoding: "binary" }
-                  );
-                });
-              },
+              action: downloadMOMI(context, discovery),
             },
           ],
     });
