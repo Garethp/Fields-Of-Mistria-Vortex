@@ -12,8 +12,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-#      - run: sudo apt-get install p7zip-full
+      - uses: actions/checkout@v4
+      #      - run: sudo apt-get install p7zip-full
 #      - uses: milliewalky/setup-7-zip@v2
       - uses: actions/setup-node@v4
         with:
