@@ -8,7 +8,7 @@ import { IDiscoveryResult } from "vortex-api/lib/extensions/gamemode_management/
 
 export const downloadWithProgress = async (
   url: string,
-  progressCallback: (totalLength: number, currentLength: number) => void
+  progressCallback: (totalLength: number, currentLength: number) => void,
 ): Promise<string> => {
   const resolvedUrl = await fetch(url, {
     method: "HEAD",
@@ -42,7 +42,7 @@ export const downloadWithProgress = async (
 
 export const runTool = async (
   path: string,
-  args: string[]
+  args: string[],
 ): Promise<string> => {
   return new Promise((resolve, reject) => {
     const childProcess = spawn(path, args, {
@@ -75,7 +75,7 @@ export const runTool = async (
 
 export const downloadMOMI = (
   context: IExtensionContext,
-  discovery: IDiscoveryResult
+  discovery: IDiscoveryResult,
 ) => {
   return () => {
     const downloadNotif: INotification = {
@@ -122,7 +122,7 @@ export const downloadMOMI = (
       return fs.writeFileAsync(
         path.join(discovery.path, "ModsOfMistriaInstaller-cli.exe"),
         output,
-        { encoding: "binary" }
+        { encoding: "binary" },
       );
     });
   };
