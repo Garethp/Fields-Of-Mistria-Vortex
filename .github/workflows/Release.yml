@@ -8,6 +8,7 @@ on:
 jobs:
   release:
     runs-on: windows-latest
+    environment: Deploy
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
